@@ -19,6 +19,6 @@ def get_database_path(config_file: Path) -> Path:
 def init_database(db_path: Path) -> int:
     """Create the vocabulary database."""
     try:
-        db_path.write_text("{}")  # Empty vocab dict
+        db_path.write_text("[]")  # Empty vocab list
     except OSError:
         return DB_WRITE_ERROR
