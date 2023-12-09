@@ -20,13 +20,12 @@ class Worder:
     def add(self, name: str, article: str|None = None, gender: str|None = None, typ: str|None = None) -> CurrentWord:
         """Add a new word to the database."""
         if article == None:
-            article = NA
+            article = "NA"
         if gender == None:
-            gender == NA
+            gender == "NA"
         if typ == None:
-            typ == NA
+            typ == "NA"
         word = {
-                "name": name,
                 "article": article,
                 "gender": gender,
                 "typ": typ,
@@ -34,7 +33,8 @@ class Worder:
         read = self._db_handler.read_words()
         if read.error == DB_READ_ERROR:
             return CurrentWord(word, read.error)
-        read.word_list.append(word)
+        if name not in read.word_list:
+            read.word_list[name] = word
         write = self._db_handler.write_words(read.word_list)
         return CurrentWord(word, write.error)
 

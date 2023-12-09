@@ -62,6 +62,37 @@ def get_worder() -> vocabcli.Worder:
         )
         raise typer.Exit(1)
 
+@app.command()
+def add(
+        name: str = typer.Argument(...),
+        article: Optional[str] = typer.Option(-1, "--article", "-a", min=-1, max=2),
+        gender: Optional[str] = typer.Option(-1, "--gender", "-g", min=-1, max=2),
+        typ: Optional[str] = typer.Argument(...),
+) -> None:
+    """Add a new word with a name."""
+    worder = get_worder()
+    article_map = ["der", "die", "das", None]
+    gender_map = ["feminine", "masculine", "neuter", None]
+
+    if typ == None:
+        raise "You must provide a type!"
+
+    word, error = worder.add(name, article_map[int(article)], gender_map[int(gender)], typ)
+
+    if error:
+        typer.secho(
+                f'Adding word failed with "{ERRORS[error]}"', fg=typer.colors.RED
+        )
+        raise typer.Exit(1)
+    else:
+        typer.secho(
+                f"""     word: {name} was added
+with article: {article_map[int(article)]}
+with gender: {gender_map[int(gender)]}
+with type: {typ}""",
+                fg=typer.colors.GREEN,
+        )
+
 def _version_callback(value: bool) -> None:
     if value:
         typer.echo(f"{__app_name__} v{__version__}")
