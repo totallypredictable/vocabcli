@@ -38,7 +38,7 @@ class DatabaseHandler:
         try:
             with self._db_path.open("r") as db:
                 try:
-                    return DBRresponse(json.load(db), SUCCESS)
+                    return DBResponse(json.load(db), SUCCESS)
                 except json.JSONDecodeError:  # Catch wrong JSON format
                     return DBResponse([], JSON_ERROR)
         except OSError:  # Catch file IO problems
