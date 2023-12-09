@@ -4,7 +4,7 @@
 from pathlib import Path
 from typing import Any, Dict, NamedTuple
 
-from vocabcli.databaswe import DatabaseHandler
+from vocabcli.database import DatabaseHandler
 
 
 class CurrentWord(NamedTuple):
