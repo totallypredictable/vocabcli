@@ -20,6 +20,7 @@ def init(
         ),
 ) -> None:
     """Initialise the vocab database."""
+    app_init_error = config.init_app(db_path)
     if app_init_error:
         typer.secho(
                 f'Creating config file failed with "{ERRORS[app_init_error]}"',
