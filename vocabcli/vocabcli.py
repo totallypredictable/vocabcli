@@ -38,4 +38,9 @@ class Worder:
         write = self._db_handler.write_words(read.word_list)
         return CurrentWord(word, write.error)
 
+    def get_word_list(self) -> List[Dict[str, Any]]:
+        """Return the current vocabulary."""
+        read = self._db_handler.read_words()
+        return read.word_list
+
 
