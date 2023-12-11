@@ -98,6 +98,39 @@ def _version_callback(value: bool) -> None:
         typer.echo(f"{__app_name__} v{__version__}")
         raise typer.Exit()
 
+@app.command(name="list")
+def list_all() -> None:
+    """List the vocab."""
+    worder = get_worder()
+    word_list = worder.get_word_list()
+    if len(word_list) == 0:
+        typer.secho(
+                "There are no words in the vocab yet.", fg=typer.colors.RED
+                )
+        raise typer.Exit()
+    typer.secho("\nword list:\n", fg=typer.colors.BLUE, bold=True)
+    columns = (
+            "Name",
+            "| Article",
+            "| Gender",
+            "| Type",
+            )
+    headers = "".join(columns)
+    typer.secho(headers, fg=typer.colors.BLUE, bold=True)
+    typer.secho("-" * len(headers), fg=typer.colors.BLUE)
+    for id, word in enumerate(word_list, 1):
+        article, gender, typ = word_list[word].values()
+        typer.secho(
+                f"{word}{(len(columns[0]) - len(str(id))) * ' '}"
+                f"| ({article}){(len(columns[1]) - len(str(article)) - 4) * ' '}"
+                f"| {gender}{(len(columns[2]) - len(str(gender)) - 2) * ' '}"
+                f"| {typ}",
+                fg=typer.colors.BLUE,
+        )
+    typer.secho("-" * len(headers) + "\n", fg=typer.colors.BLUE)
+
+
+
 @app.callback()
 def main(
         version: Optional[bool] = typer.Option(
